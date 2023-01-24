@@ -5,7 +5,7 @@ This repository contains a template for creating Vectr projects on a windows mac
 ## How to start:
 - Install VSCode, cmake, git and the visual studio compiler.
 - Get VSCode extensions: c++, cmake.
-- Create a folder for the project, open console in said folder and give following commands:
+- Create a folder for the project, open terminal in said folder and give following commands:
 - git clone https://github.com/ChSt15/VectrProjectTemplate.git
 - cd ./VectrProjectTemplate/
 - git submodule init
@@ -15,6 +15,9 @@ This repository contains a template for creating Vectr projects on a windows mac
 - At bottom of VSCode press the play button to build and run.
 - ...
 - Profit
-## To implement onto a platform:##
-- A library must be made to implement multiple functions in the hardware abstraction layer:
-    - These will be named in the future once basic implementation is finished.
+## Structure:##
+Add Vectr Libraries are inside the lib folder. Add source libaries of this project are inside the src folder.
+## Adding Vectr Libraries:##
+Simply copy or clone them as submodules into the lib folder. Cloning can be done by opening a terminal inside the main project folder and typing:
+- git submodule add https://github.com/ChSt15/VectrCore.git ./lib/VectrCore
+Keep in mind that the library folder must have the exact name of the library.
