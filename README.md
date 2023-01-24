@@ -7,6 +7,7 @@ This repository contains a template for creating Vectr projects on a windows mac
 - Get VSCode extensions: c++, cmake.
 - Create a folder for the project, open console in said folder and give following commands:
 - git clone https://github.com/ChSt15/VectrProjectTemplate.git
+- cd ./VectrProjectTemplate/
 - git submodule init
 - git submodule update
 - ...
