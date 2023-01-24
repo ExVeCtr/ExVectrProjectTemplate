@@ -1,0 +1,6 @@
+[submodule "lib/VectrCore"]
+	path = lib/VectrCore
+	url = https://github.com/ChSt15/VectrCore.git
+[submodule "lib/VectrHAL"]
+	path = lib/VectrHAL
+	url = https://github.com/ChSt15/VectrHAL.git
