@@ -4,3 +4,6 @@
 [submodule "lib/VectrHAL"]
 	path = lib/VectrHAL
 	url = https://github.com/ChSt15/VectrHAL.git
+[submodule "lib/VectrLibTemplate"]
+	path = lib/VectrLibTemplate
+	url = https://github.com/ChSt15/VectrLibTemplate.git
