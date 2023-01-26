@@ -1,4 +1,4 @@
-# VectrProjectTemplate
+# ExVectrProjectTemplate
 Part of the ExVeCtr project. 
 This repository contains a template for creating ExVeCtr projects on a windows machine.
 ## **This project is under initial development. Things will probably break.**
@@ -6,7 +6,7 @@ This repository contains a template for creating ExVeCtr projects on a windows m
 - Install VSCode, cmake, git and the visual studio compiler.
 - Get VSCode extensions: c++, cmake.
 - Create a folder for the project, open terminal in said folder and give following commands:
-- git clone https://github.com/ChSt15/VectrProjectTemplate.git
+- git clone https://github.com/ExVeCtr/ExVectrProjectTemplate.git
 - cd ./VectrProjectTemplate/
 - git submodule init
 - git submodule update
@@ -20,5 +20,5 @@ This repository contains a template for creating ExVeCtr projects on a windows m
 Add Vectr Libraries are inside the lib folder. Add source libaries of this project are inside the src folder.
 ## Adding ExVectr Libraries:##
 Simply copy or clone them as submodules into the lib folder. Cloning can be done by opening a terminal inside the main project folder and typing:
-- git submodule add https://github.com/ChSt15/VectrCore.git ./lib/VectrCore
+- git submodule add https://github.com/ExVeCtr/ExVectrCore.git ./lib/ExVectrCore
 Keep in mind that the library folder must have the exact name of the library.
