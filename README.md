@@ -1,4 +1,4 @@
-# ExVectrProjectTemplate
+# ExVectr Project Template
 Part of the ExVeCtr project. 
 This repository contains a template for creating ExVeCtr projects on a windows machine.
 ## **This project is under initial development. Things will probably break.**
