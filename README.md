@@ -10,6 +10,7 @@ This repository contains a template for creating Vectr projects on a windows mac
 - cd ./VectrProjectTemplate/
 - git submodule init
 - git submodule update
+- code .
 - ...
 - Open project in VSCode and go into CMakeLists file. Save and CMake should prepare.
 - At bottom of VSCode press the play button to build and run.
