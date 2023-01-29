@@ -1,9 +1,9 @@
-[submodule "lib/VectrCore"]
-	path = lib/VectrCore
-	url = https://github.com/ChSt15/VectrCore.git
-[submodule "lib/VectrHAL"]
-	path = lib/VectrHAL
-	url = https://github.com/ChSt15/VectrHAL.git
-[submodule "lib/VectrLibTemplate"]
-	path = lib/VectrLibTemplate
-	url = https://github.com/ChSt15/VectrLibTemplate.git
+[submodule "lib/ExVectrHal"]
+	path = lib/ExVectrHal
+	url = https://github.com/ExVeCtr/ExVectrHAL.git
+[submodule "lib/ExVectrCore"]
+	path = lib/ExVectrCore
+	url = https://github.com/ExVeCtr/ExVectrCore.git
+[submodule "lib/ExVectrLibTemplate"]
+	path = lib/ExVectrLibTemplate
+	url = https://github.com/ExVeCtr/ExVectrLibTemplate.git
