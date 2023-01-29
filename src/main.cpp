@@ -1,11 +1,11 @@
 #include <iostream>
 #include <chrono>
 
-#include "VectrCore/topic.hpp"
-#include "VectrCore/topic_subscribers.hpp"
-#include "VectrCore/scheduler.hpp"
+#include "ExVectrCore/topic.hpp"
+#include "ExVectrCore/topic_subscribers.hpp"
+#include "ExVectrCore/scheduler.hpp"
 
-#include "VectrHAL/time_hal.hpp"
+#include "ExVectrHAL/time_hal.hpp"
 
 
 int64_t VCTR::internalTime() {
