@@ -4,11 +4,10 @@
 #include "ExVectrCore/topic.hpp"
 #include "ExVectrCore/topic_subscribers.hpp"
 #include "ExVectrCore/scheduler.hpp"
+#include "ExVectrCore/time_base.hpp"
 
-#include "ExVectrHAL/time_hal.hpp"
 
-
-int64_t VCTR::internalTime() {
+int64_t VCTR::timeBase() {
 
     static auto lastTime = std::chrono::steady_clock::now();//std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).count();
     static int64_t timeCount = 0;
