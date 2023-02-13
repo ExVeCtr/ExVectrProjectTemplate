@@ -1,31 +1,19 @@
 #include <iostream>
-#include <chrono>
 
 #include "ExVectrCore/topic.hpp"
 #include "ExVectrCore/topic_subscribers.hpp"
 #include "ExVectrCore/scheduler.hpp"
 #include "ExVectrCore/time_base.hpp"
 
+#include "ExVectrCore/scheduler2.hpp"
+#include "ExVectrCore/task_types.hpp"
 
-int64_t VCTR::timeBase() {
-
-    static auto lastTime = std::chrono::steady_clock::now();//std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).count();
-    static int64_t timeCount = 0;
-
-    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - lastTime).count();
-    if (time > 0) {
-        lastTime = std::chrono::steady_clock::now();
-        timeCount += time;
-    }
-
-    return timeCount;
-
-}
+#include "ExVectrWindowsPlatform.hpp"
 
 
-VCTR::Topic<float> testTopic;
-VCTR::StaticCallback_Subscriber<float> testSub;
-VCTR::ListArray<float> listReceive;
+VCTR::Core::Topic<float> testTopic;
+VCTR::Core::StaticCallback_Subscriber<float> testSub;
+VCTR::Core::ListArray<float> listReceive;
 
 void addToList(const float& item) {
 
@@ -42,14 +30,25 @@ void addToList(const float& item) {
 }
 
 
-class ThreadTest: public VCTR::Task_Threading {
+class ThreadTest: public VCTR::Core::Task_Periodic {
 public:
 
-    ThreadTest() : VCTR::Task_Threading("Test Thread", VCTR::eTaskPriority_Realtime, 1*VCTR::SECONDS) {}
+    VCTR::Core::Scheduler& sp;
 
-    void thread() {
+    ThreadTest(VCTR::Core::Scheduler& s) : VCTR::Core::Task_Periodic("Scheduler and task test", 1*VCTR::Core::SECONDS, 0, 3*VCTR::Core::SECONDS), sp(s) {}
 
-        testTopic.publish(VCTR::NOWSeconds());
+    void init() override {
+
+    }
+
+    void thread() override {
+
+        //testTopic.publish(VCTR::Core::NOWSeconds());
+        std::cout << "HELLO: " << VCTR::Core::NOWSeconds() << std::endl;
+
+        if (VCTR::Core::NOWSeconds() > 5.0f) {
+            sp.removeTask(*this);
+        }
 
     }
 
@@ -57,18 +56,25 @@ public:
 
 
 int main(int, char**) {
+
+    VCTR::Core::Scheduler scheduler;
+    ThreadTest test(scheduler);
+    scheduler.addTask(test);
     
     testSub.subscribe(testTopic);
     testSub.setCallbackFunction(addToList);
 
-    ThreadTest test;
+    
 
-    while (VCTR::NOW() < 10*VCTR::SECONDS) {
+    while (VCTR::Core::NOW() < 10*VCTR::Core::SECONDS) {
 
-        VCTR::Task_Threading::schedulerTick();
+        //VCTR::Core::Task_Threading::schedulerTick();
+        scheduler.tick();
 
     }
 
-    std::cout << "Runtime: " << VCTR::NOWSeconds() << std::endl;
+    std::cout << "Runtime: " << VCTR::Core::NOWSeconds() << std::endl;
+
+    return 0;
  
 }

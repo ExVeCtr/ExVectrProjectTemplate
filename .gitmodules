@@ -7,3 +7,6 @@
 [submodule "lib/ExVectrLibTemplate"]
 	path = lib/ExVectrLibTemplate
 	url = https://github.com/ExVeCtr/ExVectrLibTemplate.git
+[submodule "lib/ExVectrWindowsPlatform"]
+	path = lib/ExVectrWindowsPlatform
+	url = https://github.com/ExVeCtr/ExVectrWindowsPlatform.git

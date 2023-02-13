@@ -16,6 +16,7 @@ endfunction()
 
 addExVectrLibrary(ExVectrCore)
 addExVectrLibrary(ExVectrHAL)
+addExVectrLibrary(ExVectrWindowsPlatform)
 
 #End of libraries
 
