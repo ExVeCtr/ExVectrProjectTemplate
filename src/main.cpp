@@ -1,8 +1,5 @@
-#include <iostream>
-
 #include "ExVectrCore/topic.hpp"
 #include "ExVectrCore/topic_subscribers.hpp"
-#include "ExVectrCore/scheduler.hpp"
 #include "ExVectrCore/time_base.hpp"
 
 #include "ExVectrCore/scheduler2.hpp"
@@ -10,70 +7,50 @@
 
 #include "ExVectrWindowsPlatform.hpp"
 
-
-VCTR::Core::Topic<float> testTopic;
-VCTR::Core::StaticCallback_Subscriber<float> testSub;
-VCTR::Core::ListArray<float> listReceive;
-
-void addToList(const float& item) {
-
-    listReceive.append(item);
-
-    std::cout << "Nums: " << std::endl;
-
-    for (size_t i = 0; i < listReceive.size(); i++) {
-
-        std::cout << i << ": " << listReceive[i] << std::endl;
-
-    }
-
-}
+#include "ExVectrCore/print.hpp"
 
 
 class ThreadTest: public VCTR::Core::Task_Periodic {
 public:
 
-    VCTR::Core::Scheduler& sp;
+    int p_ = 0;
 
-    ThreadTest(VCTR::Core::Scheduler& s) : VCTR::Core::Task_Periodic("Scheduler and task test", 1*VCTR::Core::SECONDS, 0, 3*VCTR::Core::SECONDS), sp(s) {}
+    ThreadTest(uint32_t p) : VCTR::Core::Task_Periodic("Scheduler and task test", 1*VCTR::Core::SECONDS, 0, 0) {
+        setPriority(p);
+        p_ = p;
+    }
 
-    void init() override {
+    void taskInit() override {
 
     }
 
-    void thread() override {
+    void taskThread() override {
 
-        //testTopic.publish(VCTR::Core::NOWSeconds());
-        std::cout << "HELLO: " << VCTR::Core::NOWSeconds() << std::endl;
-
-        if (VCTR::Core::NOWSeconds() > 5.0f) {
-            sp.removeTask(*this);
-        }
+        
+        VCTR::Core::printM("Hello from task: %d, at time: %f \n", p_, VCTR::Core::NOWSeconds());
 
     }
 
 };
 
 
+
 int main(int, char**) {
 
-    VCTR::Core::Scheduler scheduler;
-    ThreadTest test(scheduler);
+    VCTR::Core::Scheduler& scheduler = VCTR::Core::getSystemScheduler();
+    ThreadTest test(1);
+    ThreadTest test1(3);
     scheduler.addTask(test);
-    
-    testSub.subscribe(testTopic);
-    testSub.setCallbackFunction(addToList);
+    scheduler.addTask(test1);
 
-    
-
-    while (VCTR::Core::NOW() < 10*VCTR::Core::SECONDS) {
+    while (VCTR::Core::NOW() < 30*VCTR::Core::SECONDS) {
 
         //VCTR::Core::Task_Threading::schedulerTick();
         scheduler.tick();
 
     }
 
-    std::cout << "Runtime: " << VCTR::Core::NOWSeconds() << std::endl;
+    VCTR::Core::printM("Runtime: %f \n", VCTR::Core::NOWSeconds());
 
     return 0;
  
