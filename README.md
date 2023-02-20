@@ -6,11 +6,11 @@ This repository contains a template for creating ExVectr projects on a windows m
 - Install VSCode, cmake, git and the visual studio compiler.
 - Get VSCode extensions: c++, cmake.
 - Create a folder for the project, open terminal in said folder and give following commands:
-- git clone https://github.com/ExVectr/ExVectrProjectTemplate.git
-- cd ./ExVectrProjectTemplate/
-- git submodule init
-- git submodule update
-- code .
+- `git clone https://github.com/ExVectr/ExVectrProjectTemplate.git`
+- `cd ./ExVectrProjectTemplate/`
+- `git submodule init`
+- `git submodule update`
+- `code .`
 - ...
 - Open project in VSCode and go into CMakeLists file. Save and CMake should prepare.
 - At bottom of VSCode press the play button to build and run.

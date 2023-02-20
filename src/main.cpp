@@ -1,75 +1,61 @@
-#include <iostream>
-#include <chrono>
+#include <thread>
 
+#include "ExVectrCore.hpp"
 #include "ExVectrCore/topic.hpp"
 #include "ExVectrCore/topic_subscribers.hpp"
-#include "ExVectrCore/scheduler.hpp"
+#include "ExVectrCore/time_base.hpp"
+#include "ExVectrCore/scheduler2.hpp"
+#include "ExVectrCore/task_types.hpp"
+#include "ExVectrCore/print.hpp"
 
-#include "ExVectrHAL/time_hal.hpp"
-
-
-int64_t VCTR::internalTime() {
-
-    static auto lastTime = std::chrono::steady_clock::now();//std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).count();
-    static int64_t timeCount = 0;
-
-    auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - lastTime).count();
-    if (time > 0) {
-        lastTime = std::chrono::steady_clock::now();
-        timeCount += time;
-    }
-
-    return timeCount;
-
-}
+#include "ExVectrWindowsPlatform.hpp"
 
 
-VCTR::Topic<float> testTopic;
-VCTR::StaticCallback_Subscriber<float> testSub;
-VCTR::ListArray<float> listReceive;
-
-void addToList(const float& item) {
-
-    listReceive.append(item);
-
-    std::cout << "Nums: " << std::endl;
-
-    for (size_t i = 0; i < listReceive.size(); i++) {
-
-        std::cout << i << ": " << listReceive[i] << std::endl;
-
-    }
-
-}
-
-
-class ThreadTest: public VCTR::Task_Threading {
+class ThreadTest: public VCTR::Core::Task_Periodic {
 public:
 
-    ThreadTest() : VCTR::Task_Threading("Test Thread", VCTR::eTaskPriority_Realtime, 1*VCTR::SECONDS) {}
+    int p_ = 0;
 
-    void thread() {
+    ThreadTest(uint32_t p, const char* name) : VCTR::Core::Task_Periodic(name, 1*VCTR::Core::SECONDS, 0, 0) {
+        setPriority(p);
+        p_ = p;
+        VCTR::Core::getSystemScheduler().addTask(*this);
+    }
 
-        testTopic.publish(VCTR::NOWSeconds());
+    void taskInit() override {
+
+    }
+
+    void taskThread() override {
+
+        
+        VCTR::Core::printM("Hello from task: %d, at time: %f \n", p_, VCTR::Core::NOWSeconds());
 
     }
 
 };
 
 
+ThreadTest test(1, "Test Task 1");
+ThreadTest test2(2, "Test Task 2");
+
+
 int main(int, char**) {
+
+    VCTR::Core::initialise();
     
-    testSub.subscribe(testTopic);
-    testSub.setCallbackFunction(addToList);
+    while (VCTR::Core::NOW() < 30*VCTR::Core::SECONDS) {
 
-    ThreadTest test;
+        VCTR::Core::getSystemScheduler().tick();
 
-    while (VCTR::NOW() < 10*VCTR::SECONDS) {
+        int64_t next = VCTR::Core::getSystemScheduler().getNextTaskRelease();
 
-        VCTR::Task_Threading::schedulerTick();
+        std::this_thread::sleep_for(std::chrono::nanoseconds(next - VCTR::Core::NOW()));
 
     }
 
-    std::cout << "Runtime: " << VCTR::NOWSeconds() << std::endl;
+    VCTR::Core::printM("Runtime: %f \n", VCTR::Core::NOWSeconds());
+
+    return 0;
  
 }
