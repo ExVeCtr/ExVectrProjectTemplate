@@ -1,4 +1,4 @@
-# ExVectr Project Template
+# ExVectr Project Template for PlatformIO
 Part of the ExVectr project. 
 This repository contains a template for creating ExVectr projects on a windows machine.
 ## **This project is under initial development. Things will probably break.**
